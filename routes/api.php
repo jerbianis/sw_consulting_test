@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['api.auth','auth:sanctum'])->group(function () {
     Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify');
     Route::post('/email/resend', [EmailVerificationController::class, 'resend'])->name('verification.resend');
 
@@ -33,8 +33,8 @@ Route::middleware('auth:sanctum')->group(function () {
 /******* Job and Application logic routes *******/
 /** ***************************************** **/
 
-Route::middleware(['auth:sanctum','verified'])->group(function () {
-    
+Route::middleware(['api.auth','auth:sanctum','verified'])->group(function () {
+
     // User routes
     Route::middleware('is_candidate')->group(function () {
         Route::post('/cv', [UserController::class, 'create_cv']);

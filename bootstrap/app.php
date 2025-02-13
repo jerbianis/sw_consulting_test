@@ -12,7 +12,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append([
+            'is_admin' => \App\Http\Middleware\IsAdmin::class,
+            'is_candidate' => \App\Http\Middleware\IsCandidate::class,
+            'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+            'api.auth' => \App\Http\Middleware\EnsureApiAuthenticated::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
